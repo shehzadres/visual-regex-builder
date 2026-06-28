@@ -1,0 +1,66 @@
+{
+  "name": "visual-regex-builder",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A drag-and-drop visual regex builder and real-time debugger with a full compiler pipeline (tokenizer, parser, AST, Thompson's construction NFA, subset construction DFA, Hopcroft minimization) and an interactive D3 automata visualizer with performance benchmarking.",
+  "keywords": [
+    "regex",
+    "regular-expressions",
+    "nfa",
+    "dfa",
+    "automata",
+    "compiler",
+    "thompsons-construction",
+    "subset-construction",
+    "hopcroft-algorithm",
+    "react",
+    "typescript",
+    "d3",
+    "visualization"
+  ],
+  "license": "MIT",
+  "author": "Shahzad",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shehzadres/visual-regex-builder.git"
+  },
+  "homepage": "https://github.com/shehzadres/visual-regex-builder#readme",
+  "bugs": {
+    "url": "https://github.com/shehzadres/visual-regex-builder/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@tailwindcss/vite": "^4.3.1",
+    "d3": "^7.9.0",
+    "lucide-react": "^1.21.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^4.3.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "oxlint": "^1.69.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.0"
+  }
+}

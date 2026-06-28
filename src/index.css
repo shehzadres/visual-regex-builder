@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+@theme {
+    /* ---------- Surfaces ---------- */
+    --color-canvas: #0a0c10;
+    --color-surface: #11141a;
+    --color-surface-raised: #171b23;
+    --color-surface-overlay: #1d212b;
+    --color-surface-hover: #1a1e27;
+
+    /* ---------- Borders ---------- */
+    --color-border-subtle: #1e222c;
+    --color-border-default: #272c38;
+    --color-border-strong: #343b4a;
+
+    /* ---------- Text ---------- */
+    --color-text-primary: #e8eaf0;
+    --color-text-secondary: #97a0b3;
+    --color-text-tertiary: #5c6577;
+    --color-text-disabled: #3d4250;
+
+    /* ---------- Accent (primary brand) ---------- */
+    --color-accent-50: #eef1ff;
+    --color-accent-300: #aabcff;
+    --color-accent-400: #8298ff;
+    --color-accent-500: #6c84ff;
+    --color-accent-600: #5468ec;
+    --color-accent-700: #4451c4;
+    --color-accent-glow: rgb(108 132 255 / 0.25);
+
+    /* ---------- Semantic ---------- */
+    --color-success-300: #8eecbc;
+    --color-success-500: #3ad68c;
+    --color-success-600: #28b274;
+    --color-success-bg: rgb(58 214 140 / 0.12);
+
+    --color-warning-300: #f7d28a;
+    --color-warning-500: #efb446;
+    --color-warning-600: #d2932a;
+    --color-warning-bg: rgb(239 180 70 / 0.12);
+
+    --color-danger-300: #f6a4ae;
+    --color-danger-500: #ef5b72;
+    --color-danger-600: #d33d56;
+    --color-danger-bg: rgb(239 91 114 / 0.12);
+
+    --color-info-300: #91d9f3;
+    --color-info-500: #45c3ea;
+    --color-info-600: #2da3c9;
+    --color-info-bg: rgb(69 195 234 / 0.12);
+
+    /* ---------- Automata state language (consistent across NFA/DFA) ---------- */
+    --color-state-default: #232838;
+    --color-state-default-border: #3a4153;
+    --color-state-start: #6c84ff;
+    --color-state-accepting: #3ad68c;
+    --color-state-active: #efb446;
+    --color-state-active-glow: rgb(239 180 70 / 0.35);
+    --color-state-selected: #45c3ea;
+    --color-state-hover: #aabcff;
+
+    /* ---------- Capture group palette (accessible, distinct) ---------- */
+    --color-group-1: #f0a35e;
+    --color-group-2: #6fc7ef;
+    --color-group-3: #8fd99a;
+    --color-group-4: #ef93c4;
+    --color-group-5: #c3a6f7;
+    --color-group-6: #f2cd6b;
+    --color-group-7: #7ad9d0;
+    --color-group-8: #f08a8a;
+
+    /* ---------- Typography ---------- */
+    --font-ui: "Inter", "Inter Placeholder", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", "JetBrains Mono Placeholder", ui-monospace,
+        "SF Mono", Menlo, Consolas, monospace;
+
+    /* ---------- Radii ---------- */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    /* ---------- Shadows (soft, low-elevation, dark-mode tuned) ---------- */
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-sm: 0 2px 6px rgb(0 0 0 / 0.35), 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 8px 24px rgb(0 0 0 / 0.45), 0 2px 6px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 16px 48px rgb(0 0 0 / 0.5), 0 4px 12px rgb(0 0 0 / 0.35);
+    --shadow-focus: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-accent-500);
+
+    /* ---------- Motion ---------- */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --duration-fast: 120ms;
+    --duration-base: 180ms;
+    --duration-slow: 280ms;
+}
+
+@layer base {
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes toast-in {
+        from {
+            opacity: 0;
+            transform: translateY(8px) scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes panel-fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    :root {
+        color-scheme: dark;
+    }
+
+    html,
+    body {
+        background-color: var(--color-canvas);
+        color: var(--color-text-primary);
+        font-family: var(--font-ui);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    * {
+        border-color: var(--color-border-default);
+    }
+
+    ::selection {
+        background-color: var(--color-accent-glow);
+    }
+
+    /* Thin, IDE-style scrollbars */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-border-strong) transparent;
+    }
+
+    *::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--color-border-strong);
+        border-radius: 999px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-text-tertiary);
+        background-clip: content-box;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-accent-500);
+        outline-offset: 2px;
+        border-radius: var(--radius-xs);
+    }
+
+    [data-theme="light"] {
+        --color-canvas: #f6f7f9;
+        --color-surface: #ffffff;
+        --color-surface-raised: #f1f2f5;
+        --color-surface-overlay: #ffffff;
+        --color-surface-hover: #ebedf1;
+
+        --color-border-subtle: #e7e9ed;
+        --color-border-default: #dadde3;
+        --color-border-strong: #c2c7d0;
+
+        --color-text-primary: #1a1d24;
+        --color-text-secondary: #5b6270;
+        --color-text-tertiary: #8b91a0;
+        --color-text-disabled: #c2c7d0;
+
+        --color-state-default: #eef0f4;
+        --color-state-default-border: #d3d8e0;
+
+        color-scheme: light;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+    }
+}
+
+@layer utilities {
+    .font-mono-tabular {
+        font-family: var(--font-mono);
+        font-feature-settings: "tnum" 1, "zero" 1;
+    }
+
+    .panel-surface {
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border-subtle);
+    }
+
+    .kbd {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        line-height: 1;
+        padding: 2px 5px;
+        border-radius: var(--radius-xs);
+        background-color: var(--color-surface-raised);
+        border: 1px solid var(--color-border-strong);
+        color: var(--color-text-secondary);
+        box-shadow: var(--shadow-xs);
+    }
+}
