@@ -17,7 +17,7 @@ textbook exercise.
 
 ## 🚀 Demo
 
-> **Live Demo:** *(Coming Soon)*
+> **Live Demo:** https://visual-regex-builder.vercel.app/
 
 ---
 
