@@ -1,5 +1,15 @@
 # Visual Regex Builder & Debugger
 
+# Visual Regex Builder & Debugger
+
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
+![D3.js](https://img.shields.io/badge/D3.js-Visualization-F9A03C?logo=d3.js&logoColor=white)
+![MIT License](https://img.shields.io/github/license/shehzadres/visual-regex-builder)
+![Last Commit](https://img.shields.io/github/last-commit/shehzadres/visual-regex-builder)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?logo=vercel&logoColor=white)](https://visual-regex-builder.vercel.app/)
+
 A drag-and-drop visual regex builder paired with a real-time debugger and a
 full educational compiler pipeline for regular expressions, presented in a
 dark-first, IDE-style interface. Build a pattern visually from blocks, watch
