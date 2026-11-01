@@ -233,6 +233,33 @@
     }
 
     .surface-shadow { box-shadow: var(--shadow-sm); }
+
+    .expression-canvas {
+        --color-surface: #26312a;
+        --color-surface-raised: #303d34;
+        --color-surface-overlay: #344238;
+        --color-surface-hover: #39483d;
+        --color-border-subtle: #3b4a40;
+        --color-border-default: #4b5b50;
+        --color-border-strong: #617365;
+        --color-text-primary: #edf1e9;
+        --color-text-secondary: #bac7ba;
+        --color-text-tertiary: #91a092;
+        --color-text-disabled: #68796b;
+        --color-accent-50: #304b38;
+        --color-accent-300: #b8d7bd;
+        --color-accent-500: #8eb997;
+        --color-accent-600: #9fc9a6;
+        --color-accent-700: #c2dfc6;
+        --color-success-500: #8dc69a;
+        background-color: #202a23;
+        border-color: #39483e;
+        color: var(--color-text-primary);
+    }
+
+    .expression-canvas button:focus-visible {
+        outline-offset: 3px;
+    }
 }
 
 @media (max-width: 1080px) {

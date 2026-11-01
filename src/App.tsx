@@ -7,9 +7,11 @@ import CommandPalette from "./components/shell/CommandPalette";
 import ToastViewport from "./design-system/Toast";
 import ThemeSync from "./design-system/ThemeSync";
 import { useConsoleLogging } from "./hooks/useConsoleLogging";
+import { useUIStore } from "./store/uiStore";
 
 function App() {
     useConsoleLogging();
+    const activeWorkspaceTab = useUIStore((s) => s.activeWorkspaceTab);
 
     return (
         <div className="flex flex-col h-screen w-screen overflow-hidden bg-canvas text-text-primary">
@@ -19,7 +21,7 @@ function App() {
             <div className="flex-1 flex min-h-0">
                 <Sidebar />
                 <Workspace />
-                <Inspector />
+                {activeWorkspaceTab !== "builder" && <Inspector />}
             </div>
 
             <BottomDock />
