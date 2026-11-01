@@ -578,7 +578,7 @@
 .app-workspace-nav [role=tab][aria-selected=true]{color:#26343a;background:transparent}
 .app-workspace-nav [role=tab]>svg{color:#899493}
 .app-workspace-nav [role=tab][aria-selected=true]>svg{color:var(--signal)}
-.app-workspace-nav [role=tab]>span:last-child{background:var(--signal);height:2px;left:12px;right:12px;border-radius:0}
+.app-workspace-nav [role=tab]>span.absolute{background:var(--signal);height:2px;left:12px;right:12px;border-radius:0}
 .app-tab-label{display:flex;align-items:center;gap:8px}
 .app-tab-number{color:#a0a7a1;font:9px var(--font-mono)}
 .app-workspace-nav [aria-selected=true] .app-tab-number{color:var(--signal)}
@@ -793,3 +793,12 @@
 .regex-lab-results-column .test-view .tool-panel{margin-top:0}
 @media(max-width:1050px){.regex-lab-layout{grid-template-columns:minmax(0,1fr)}.regex-lab-input-column{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.regex-lab-results-column .tool-view-head{align-items:flex-end}}
 @media(max-width:620px){.regex-lab-input-column{grid-template-columns:minmax(0,1fr)}.regex-lab-results-column .tool-view-head{align-items:flex-start}.regex-code-display{min-height:65px}}
+
+/* Keep the navigation indicator on its own absolute child, never on nested label spans. */
+.app-workspace-nav [role=tab]>span.absolute{position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--signal)}
+.app-workspace-nav [role=tab] .app-tab-label>small{position:static;display:inline;margin:0;padding:0;background:transparent;height:auto;left:auto;right:auto;color:#9ba39e;font:8px var(--font-mono)}
+.app-workspace-content [role=tab]>span.absolute{position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--signal)}
+
+.app-workspace-nav [role=tab]>.app-tab-label{position:static;left:auto;right:auto;bottom:auto;height:auto;background:transparent;border-radius:0}
+
+.app-workspace-nav [role=tab]>.app-tab-label:last-child{position:static!important;left:auto!important;right:auto!important;bottom:auto!important;height:auto!important;background:transparent!important;border-radius:0!important}
