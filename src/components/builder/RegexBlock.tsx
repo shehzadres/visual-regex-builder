@@ -15,12 +15,12 @@ const BLOCK_LABELS: Record<RegexBlockModel["type"], string> = {
 };
 
 const BLOCK_ACCENTS: Record<RegexBlockModel["type"], string> = {
-    literal: "border-border-default bg-surface-raised text-text-primary",
-    digit: "border-info-600/40 bg-info-bg text-info-300",
-    word: "border-success-600/40 bg-success-bg text-success-300",
-    whitespace: "border-border-default bg-surface-raised text-text-secondary",
-    group: "border-accent-600/40 bg-accent-500/10 text-accent-300",
-    quantifier: "border-warning-600/40 bg-warning-bg text-warning-300",
+    literal: "border-border-default bg-canvas text-text-primary",
+    digit: "border-border-default bg-surface text-info-600",
+    word: "border-border-default bg-surface text-success-600",
+    whitespace: "border-border-default bg-canvas text-text-secondary",
+    group: "border-border-default bg-surface text-accent-600",
+    quantifier: "border-border-default bg-surface text-warning-600",
 };
 
 interface RegexBlockProps {
@@ -76,11 +76,11 @@ export default function RegexBlock({
                 ref={setNodeRef}
                 style={style}
                 className={[
-                    "group flex items-center gap-2 rounded-md border px-2.5 py-2 cursor-pointer select-none",
+                    "group flex items-center gap-2.5 rounded-lg border px-3 py-3 cursor-pointer select-none",
                     "transition-[box-shadow,border-color,opacity] duration-[var(--duration-fast)]",
                     BLOCK_ACCENTS[block.type],
                     isSelected
-                        ? "ring-2 ring-accent-500 ring-offset-1 ring-offset-canvas"
+                        ? "border-accent-500 bg-accent-50 shadow-xs"
                         : "",
                     isDragging ? "opacity-40" : "",
                 ].join(" ")}
@@ -105,15 +105,15 @@ export default function RegexBlock({
                     {BLOCK_LABELS[block.type]}
                 </span>
                 {previewValue && (
-                    <span className="text-xs font-mono-tabular bg-black/20 rounded px-1.5 py-0.5 truncate max-w-[8rem]">
+                    <span className="text-xs font-mono-tabular bg-surface-raised border border-border-subtle rounded-md px-2 py-1 truncate max-w-[10rem]">
                         {previewValue}
                     </span>
                 )}
-                <div className="ml-auto flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="ml-auto flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                     <button
                         type="button"
                         aria-label="Duplicate block"
-                        className="p-1 rounded text-current hover:bg-black/20"
+                        className="p-1.5 rounded-md text-current hover:bg-surface-hover"
                         onClick={(e) => {
                             e.stopPropagation();
                             duplicateBlock(block.id);
@@ -124,7 +124,7 @@ export default function RegexBlock({
                     <button
                         type="button"
                         aria-label="Remove block"
-                        className="p-1 rounded text-current hover:bg-black/20 hover:text-danger-300"
+                        className="p-1.5 rounded-md text-current hover:bg-danger-bg hover:text-danger-500"
                         onClick={(e) => {
                             e.stopPropagation();
                             removeBlock(block.id);

@@ -18,10 +18,10 @@ import EmptyState from "../../design-system/EmptyState";
 import { formatDuration } from "../../utils/textHelpers";
 
 const LEVEL_COLORS: Record<string, string> = {
-    info: "text-info-400",
-    warning: "text-warning-400",
-    error: "text-danger-400",
-    success: "text-success-400",
+    info: "text-info-500",
+    warning: "text-warning-500",
+    error: "text-danger-500",
+    success: "text-success-500",
 };
 
 function formatTime(ts: number): string {
@@ -56,7 +56,7 @@ function ConsoleView() {
                         {formatTime(entry.timestamp)}
                     </span>
                     <span
-                        className={`shrink-0 uppercase font-semibold ${LEVEL_COLORS[entry.level]}`}
+                        className={`shrink-0 font-semibold ${LEVEL_COLORS[entry.level]}`}
                     >
                         {entry.level}
                     </span>
@@ -182,7 +182,7 @@ export default function BottomDock() {
     return (
         <div
             className="shrink-0 flex flex-col bg-surface border-t border-border-subtle"
-            style={{ height: dockOpen ? dockHeight : 32 }}
+            style={{ height: dockOpen ? dockHeight : 36 }}
         >
             {dockOpen && (
                 <ResizeHandle
@@ -192,7 +192,7 @@ export default function BottomDock() {
                 />
             )}
 
-            <div className="flex items-center justify-between h-8 px-2 shrink-0">
+            <div className="flex items-center justify-between h-9 px-3 shrink-0">
                 <Tabs
                     size="sm"
                     value={activeDockTab}
@@ -206,6 +206,8 @@ export default function BottomDock() {
                                 </span>
                             ) : undefined,
                     }))}
+                    idPrefix="dock"
+                    ariaLabel="Output panels"
                 />
                 <div className="flex items-center gap-1">
                     {dockOpen && activeDockTab === "console" && (
@@ -236,7 +238,7 @@ export default function BottomDock() {
             </div>
 
             {dockOpen && (
-                <div className="flex-1 min-h-0 overflow-y-auto">
+                <div id="dock-panel" role="tabpanel" aria-labelledby={`dock-${activeDockTab}`} className="flex-1 min-h-0 overflow-y-auto">
                     {activeDockTab === "console" && <ConsoleView />}
                     {activeDockTab === "logs" && <ConsoleView />}
                     {activeDockTab === "errors" && <ErrorsView />}

@@ -29,8 +29,8 @@ export default function RegexOutput() {
     return (
         <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
-                    Generated regex
+                <h3 className="text-[12px] font-semibold text-text-secondary">
+                    Generated expression
                 </h3>
                 <Button
                     variant="ghost"
@@ -65,7 +65,7 @@ export default function RegexOutput() {
             </Badge>
 
             <div className="flex flex-col gap-1.5">
-                <span className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                <span className="text-[12px] font-semibold text-text-secondary">
                     Flags
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -73,9 +73,9 @@ export default function RegexOutput() {
                         <label
                             key={flag}
                             className={[
-                                "flex items-center gap-1.5 text-xs rounded-full px-2.5 py-1 cursor-pointer border transition-colors duration-[var(--duration-fast)]",
+                                "flex items-center gap-2 text-[12px] rounded-md px-2.5 py-1.5 cursor-pointer border transition-colors duration-[var(--duration-fast)]",
                                 flags.includes(flag)
-                                    ? "bg-accent-500/15 border-accent-500/40 text-accent-300"
+                                    ? "bg-accent-50 border-accent-500/40 text-accent-700"
                                     : "bg-surface-raised border-border-default text-text-secondary hover:border-border-strong",
                             ].join(" ")}
                         >

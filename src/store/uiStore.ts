@@ -42,28 +42,28 @@ interface UIStore {
 export const useUIStore = create<UIStore>()(
     persist(
         (set) => ({
-            theme: "dark",
+            theme: "light",
             toggleTheme: () =>
                 set((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
 
-            sidebarWidth: 280,
+            sidebarWidth: 260,
             setSidebarWidth: (width) =>
                 set({ sidebarWidth: Math.min(420, Math.max(220, width)) }),
             sidebarCollapsed: false,
             toggleSidebar: () =>
                 set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
 
-            inspectorWidth: 300,
+            inspectorWidth: 276,
             setInspectorWidth: (width) =>
                 set({ inspectorWidth: Math.min(440, Math.max(240, width)) }),
             inspectorCollapsed: false,
             toggleInspector: () =>
                 set((s) => ({ inspectorCollapsed: !s.inspectorCollapsed })),
 
-            dockHeight: 220,
+            dockHeight: 184,
             setDockHeight: (height) =>
                 set({ dockHeight: Math.min(520, Math.max(120, height)) }),
-            dockOpen: true,
+            dockOpen: false,
             toggleDock: () => set((s) => ({ dockOpen: !s.dockOpen })),
             activeDockTab: "console",
             setActiveDockTab: (tab) => set({ activeDockTab: tab }),
@@ -75,7 +75,7 @@ export const useUIStore = create<UIStore>()(
             setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
         }),
         {
-            name: "visual-regex-builder-ui-layout",
+            name: "visual-regex-builder-ui-layout-v2",
             partialize: (state) => ({
                 theme: state.theme,
                 sidebarWidth: state.sidebarWidth,

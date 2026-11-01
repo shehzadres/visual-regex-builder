@@ -34,14 +34,22 @@ export default function Workspace() {
 
     return (
         <div className="flex-1 flex flex-col min-w-0 min-h-0 bg-canvas">
-            <div className="flex items-center px-3 h-10 shrink-0 border-b border-border-subtle bg-surface">
+            <div className="flex items-center px-4 h-12 shrink-0 border-b border-border-subtle bg-surface overflow-x-auto">
                 <Tabs
                     value={activeWorkspaceTab}
                     onChange={setActiveWorkspaceTab}
                     items={WORKSPACE_TABS}
+                    idPrefix="workspace"
+                    ariaLabel="Workspace views"
                 />
             </div>
-            <div className="flex-1 min-h-0 overflow-y-auto p-4">
+            <div
+                id="workspace-panel"
+                role="tabpanel"
+                aria-labelledby={`workspace-${activeWorkspaceTab}`}
+                tabIndex={0}
+                className="flex-1 min-h-0 overflow-y-auto p-5"
+            >
                 {activeWorkspaceTab === "builder" && <BuilderTab />}
                 {activeWorkspaceTab === "regex" && <RegexTab />}
                 {activeWorkspaceTab === "ast" && <ASTTab />}

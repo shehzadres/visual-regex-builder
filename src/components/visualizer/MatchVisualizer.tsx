@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, Sparkles } from "lucide-react";
+import { AlertTriangle, ScanSearch } from "lucide-react";
 import { useRegexMatcher } from "../../hooks/useRegexMatcher";
 import HighlightedText from "./HighlightedText";
 import MatchControls from "./MatchControls";
@@ -35,7 +35,7 @@ export default function MatchVisualizer() {
     if (pattern === "") {
         return (
             <EmptyState
-                icon={<Sparkles className="w-5 h-5" />}
+                icon={<ScanSearch className="w-5 h-5" />}
                 title="Nothing to match yet"
                 description="Add blocks in the Builder to generate a pattern."
             />

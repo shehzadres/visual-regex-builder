@@ -180,10 +180,15 @@ export default function CommandPalette() {
     return (
         <div className="fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-4">
             <div
-                className="absolute inset-0 bg-black/60 animate-[panel-fade-in_var(--duration-base)_var(--ease-out)]"
+                className="absolute inset-0 bg-black/25 animate-[panel-fade-in_var(--duration-base)_var(--ease-out)]"
                 onClick={() => setOpen(false)}
             />
-            <div className="relative w-full max-w-lg rounded-xl bg-surface-overlay border border-border-default shadow-lg animate-[panel-fade-in_var(--duration-base)_var(--ease-out)] overflow-hidden">
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Command palette"
+                className="relative w-full max-w-lg rounded-xl bg-surface-overlay border border-border-default shadow-lg animate-[panel-fade-in_var(--duration-base)_var(--ease-out)] overflow-hidden"
+            >
                 <div className="flex items-center gap-2.5 px-4 h-12 border-b border-border-subtle">
                     <Search className="w-4 h-4 text-text-tertiary shrink-0" />
                     <input
@@ -192,6 +197,7 @@ export default function CommandPalette() {
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="Search patterns, actions…"
+                        aria-label="Search commands"
                         className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none"
                     />
                     <span className="kbd">esc</span>
@@ -208,7 +214,7 @@ export default function CommandPalette() {
                             return (
                                 <div key={command.id}>
                                     {showGroupHeader && (
-                                        <div className="px-4 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-text-disabled">
+                                        <div className="px-4 pt-3 pb-1 text-[11px] font-medium text-text-tertiary">
                                             {command.group}
                                         </div>
                                     )}

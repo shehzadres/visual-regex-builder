@@ -16,10 +16,10 @@ export default function Card({
     return (
         <div
             className={[
-                "rounded-lg bg-surface-raised border border-border-subtle",
-                padded ? "p-3" : "",
+                "rounded-xl bg-surface border border-border-subtle",
+                padded ? "p-4" : "",
                 interactive
-                    ? "transition-[border-color,transform] duration-[var(--duration-fast)] hover:border-border-strong cursor-pointer active:scale-[0.99]"
+                    ? "transition-[background-color,border-color,transform] duration-[var(--duration-fast)] hover:bg-surface-overlay hover:border-border-default cursor-pointer active:scale-[0.995]"
                     : "",
                 className,
             ].join(" ")}
@@ -39,10 +39,10 @@ interface StatCardProps {
 
 const ACCENT_CLASSES: Record<NonNullable<StatCardProps["accent"]>, string> = {
     neutral: "text-text-primary",
-    accent: "text-accent-300",
-    success: "text-success-300",
-    warning: "text-warning-300",
-    danger: "text-danger-300",
+    accent: "text-accent-600",
+    success: "text-success-500",
+    warning: "text-warning-500",
+    danger: "text-danger-500",
 };
 
 export function StatCard({
@@ -52,13 +52,13 @@ export function StatCard({
     accent = "neutral",
 }: StatCardProps) {
     return (
-        <Card className="flex flex-col gap-1 min-w-0">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-text-tertiary truncate">
+        <div className="flex min-w-0 flex-col gap-1 rounded-lg border border-border-subtle bg-canvas px-3 py-3">
+            <span className="text-[11px] font-medium text-text-tertiary truncate">
                 {label}
             </span>
             <span
                 className={[
-                    "text-xl font-semibold font-mono-tabular truncate",
+                    "text-xl font-semibold font-mono-tabular tracking-[-0.04em] truncate",
                     ACCENT_CLASSES[accent],
                 ].join(" ")}
             >
@@ -69,6 +69,6 @@ export function StatCard({
                     {sublabel}
                 </span>
             )}
-        </Card>
+        </div>
     );
 }

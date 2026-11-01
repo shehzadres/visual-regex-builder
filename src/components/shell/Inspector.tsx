@@ -18,8 +18,8 @@ function InspectorSection({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex flex-col gap-2.5 px-3 py-3 border-b border-border-subtle last:border-b-0">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+        <div className="flex flex-col gap-3 px-4 py-4 border-b border-border-subtle last:border-b-0">
+            <h3 className="text-[12px] font-semibold text-text-secondary">
                 {title}
             </h3>
             {children}
@@ -32,7 +32,7 @@ function RegexPropertiesSection() {
     const flags = useRegexStore((s) => s.flags);
 
     return (
-        <InspectorSection title="Regex properties">
+        <InspectorSection title="Expression">
             <div className="flex flex-col gap-1.5 text-xs">
                 <div className="flex items-center justify-between">
                     <span className="text-text-tertiary">Status</span>
@@ -61,7 +61,7 @@ function MatchStatisticsSection() {
     const { stats, matches } = useRegexMatcher();
 
     return (
-        <InspectorSection title="Match statistics">
+        <InspectorSection title="Match summary">
             <div className="grid grid-cols-2 gap-2">
                 <StatCard label="Matches" value={stats.totalMatches} />
                 <StatCard
@@ -110,7 +110,7 @@ function AutomataMetricsSection() {
 
     if (!comparison) {
         return (
-            <InspectorSection title="Automata metrics">
+            <InspectorSection title="Automata">
                 <p className="text-[11px] text-text-tertiary">
                     Build a valid pattern to see NFA/DFA metrics.
                 </p>
@@ -119,7 +119,7 @@ function AutomataMetricsSection() {
     }
 
     return (
-        <InspectorSection title="Automata metrics">
+        <InspectorSection title="Automata">
             <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="flex flex-col gap-0.5">
                     <span className="text-[10px] text-text-tertiary uppercase">
@@ -180,7 +180,7 @@ function BlockCountSection() {
     const selected = blocks.find((b) => b.id === selectedBlockId);
 
     return (
-        <InspectorSection title="Builder state">
+        <InspectorSection title="Builder">
             <div className="flex items-center justify-between text-xs">
                 <span className="text-text-tertiary">Total blocks</span>
                 <span className="font-mono-tabular text-text-primary">
@@ -224,7 +224,7 @@ export default function Inspector() {
     return (
         <div
             style={{ width: inspectorWidth }}
-            className="shrink-0 flex bg-surface border-l border-border-subtle"
+            className="inspector-shell shrink-0 flex bg-surface border-l border-border-subtle"
         >
             <ResizeHandle
                 direction="horizontal"
@@ -232,8 +232,8 @@ export default function Inspector() {
                 onResize={(delta) => setInspectorWidth(inspectorWidth - delta)}
             />
             <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-                <div className="flex items-center justify-between px-3 h-9 shrink-0 border-b border-border-subtle">
-                    <span className="flex items-center gap-1.5 text-xs font-semibold text-text-secondary">
+                <div className="flex items-center justify-between px-4 h-11 shrink-0 border-b border-border-subtle">
+                    <span className="flex items-center gap-2 text-[12px] font-semibold text-text-secondary">
                         <Info className="w-3.5 h-3.5" />
                         Inspector
                     </span>

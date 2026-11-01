@@ -39,7 +39,7 @@ export default function BlockEditor() {
     return (
         <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+                <h3 className="text-[12px] font-semibold text-text-secondary">
                     Editing: {block.type}
                 </h3>
                 <button

@@ -5,13 +5,12 @@ interface SkeletonProps {
 export default function Skeleton({ className = "" }: SkeletonProps) {
     return (
         <div
+            aria-hidden="true"
             className={[
-                "rounded-md bg-surface-raised relative overflow-hidden",
+                "rounded-md bg-surface-raised animate-pulse",
                 className,
             ].join(" ")}
-        >
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
-        </div>
+        />
     );
 }
 

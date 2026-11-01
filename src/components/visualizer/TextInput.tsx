@@ -9,7 +9,7 @@ export default function TextInput() {
         <div className="flex flex-col gap-1.5">
             <label
                 htmlFor="test-text-input"
-                className="text-xs font-semibold uppercase tracking-wider text-text-tertiary"
+                className="text-[12px] font-semibold text-text-secondary"
             >
                 Test text
             </label>

@@ -7,6 +7,7 @@ import type {
     GraphNode,
 } from "../../engine/automata/nfaGraph";
 import Button from "../../design-system/Button";
+import { useUIStore } from "../../store/uiStore";
 
 interface NFAGraphViewProps {
     graph: AutomatonGraph;
@@ -26,23 +27,35 @@ const NODE_RADIUS = 22;
 const WIDTH = 820;
 const HEIGHT = 480;
 
-const COLOR_DEFAULT_FILL = "#171b23";
-const COLOR_DEFAULT_STROKE = "#3a4153";
-const COLOR_START_STROKE = "#6c84ff";
-const COLOR_ACCEPT_STROKE = "#3ad68c";
-const COLOR_ACTIVE_FILL = "#efb446";
-const COLOR_ACTIVE_STROKE = "#d2932a";
-const COLOR_EDGE_DEFAULT = "#3a4153";
-const COLOR_EDGE_EPSILON = "#2d3340";
-const COLOR_EDGE_ACTIVE = "#efb446";
-const COLOR_LABEL_DEFAULT = "#97a0b3";
-const COLOR_LABEL_EPSILON = "#5c6577";
+function getGraphPalette() {
+    const styles = getComputedStyle(document.documentElement);
+    const read = (name: string, fallback: string) =>
+        styles.getPropertyValue(name).trim() || fallback;
+
+    return {
+        defaultFill: read("--color-state-default", "#fffefa"),
+        defaultStroke: read("--color-state-default-border", "#c9c6ba"),
+        startStroke: read("--color-state-start", "#55765d"),
+        acceptStroke: read("--color-state-accepting", "#2e8055"),
+        activeFill: read("--color-state-active", "#e8d2a7"),
+        activeStroke: read("--color-warning-600", "#96671f"),
+        edgeDefault: read("--color-border-strong", "#c9c6ba"),
+        edgeEpsilon: read("--color-border-default", "#dedbd1"),
+        edgeActive: read("--color-state-active", "#bd852e"),
+        labelDefault: read("--color-text-secondary", "#62685f"),
+        labelEpsilon: read("--color-text-tertiary", "#858a80"),
+        textPrimary: read("--color-text-primary", "#252922"),
+        tooltipBackground: read("--color-surface-overlay", "#ffffff"),
+        tooltipBorder: read("--color-border-default", "#dedbd1"),
+    };
+}
 
 export default function NFAGraphView({
     graph,
     activeStateIds,
     activeEdgeIds,
 }: NFAGraphViewProps) {
+    const theme = useUIStore((s) => s.theme);
     const svgRef = useRef<SVGSVGElement | null>(null);
     const simulationRef = useRef<d3.Simulation<SimNode, SimLink> | null>(null);
     const zoomBehaviorRef = useRef<d3.ZoomBehavior<
@@ -62,6 +75,7 @@ export default function NFAGraphView({
         const svgEl = svgRef.current;
         if (!svgEl) return;
 
+        const palette = getGraphPalette();
         const svg = d3.select(svgEl);
         svg.selectAll("*").remove();
 
@@ -80,7 +94,7 @@ export default function NFAGraphView({
             .attr("orient", "auto-start-reverse")
             .append("path")
             .attr("d", "M 0 0 L 10 5 L 0 10 z")
-            .attr("fill", COLOR_EDGE_DEFAULT);
+            .attr("fill", palette.edgeDefault);
 
         defs
             .append("marker")
@@ -93,7 +107,7 @@ export default function NFAGraphView({
             .attr("orient", "auto-start-reverse")
             .append("path")
             .attr("d", "M 0 0 L 10 5 L 0 10 z")
-            .attr("fill", COLOR_EDGE_ACTIVE);
+            .attr("fill", palette.edgeActive);
 
         const zoomBehavior = d3
             .zoom<SVGSVGElement, unknown>()
@@ -161,7 +175,7 @@ export default function NFAGraphView({
             .attr("class", "link-path")
             .attr("fill", "none")
             .attr("stroke", (d) =>
-                d.isEpsilon ? COLOR_EDGE_EPSILON : COLOR_EDGE_DEFAULT
+                d.isEpsilon ? palette.edgeEpsilon : palette.edgeDefault
             )
             .attr("stroke-width", 1.5)
             .attr("stroke-dasharray", (d) => (d.isEpsilon ? "4,3" : "none"))
@@ -178,7 +192,7 @@ export default function NFAGraphView({
             .attr("font-size", 11)
             .attr("font-family", "JetBrains Mono, ui-monospace, monospace")
             .attr("fill", (d) =>
-                d.isEpsilon ? COLOR_LABEL_EPSILON : COLOR_LABEL_DEFAULT
+                d.isEpsilon ? palette.labelEpsilon : palette.labelDefault
             )
             .text((d) => d.label);
 
@@ -196,7 +210,7 @@ export default function NFAGraphView({
             .attr("class", "self-loop-path")
             .attr("fill", "none")
             .attr("stroke", (d) =>
-                d.isEpsilon ? COLOR_EDGE_EPSILON : COLOR_EDGE_DEFAULT
+                d.isEpsilon ? palette.edgeEpsilon : palette.edgeDefault
             )
             .attr("stroke-width", 1.5)
             .attr("stroke-dasharray", (d) => (d.isEpsilon ? "4,3" : "none"))
@@ -208,7 +222,7 @@ export default function NFAGraphView({
             .attr("text-anchor", "middle")
             .attr("font-size", 11)
             .attr("font-family", "JetBrains Mono, ui-monospace, monospace")
-            .attr("fill", COLOR_LABEL_DEFAULT)
+            .attr("fill", palette.labelDefault)
             .text((d) => d.label);
 
         const nodeGroup = zoomRoot.append("g").attr("class", "nodes");
@@ -244,16 +258,16 @@ export default function NFAGraphView({
             .attr("class", "accept-ring")
             .attr("r", NODE_RADIUS + 5)
             .attr("fill", "none")
-            .attr("stroke", COLOR_ACCEPT_STROKE)
+            .attr("stroke", palette.acceptStroke)
             .attr("stroke-width", 2);
 
         nodeSelection
             .append("circle")
             .attr("class", "node-circle")
             .attr("r", NODE_RADIUS)
-            .attr("fill", COLOR_DEFAULT_FILL)
+            .attr("fill", palette.defaultFill)
             .attr("stroke", (d) =>
-                d.isStart ? COLOR_START_STROKE : COLOR_DEFAULT_STROKE
+                d.isStart ? palette.startStroke : palette.defaultStroke
             )
             .attr("stroke-width", (d) => (d.isStart ? 2.5 : 1.5))
             .attr(
@@ -267,7 +281,7 @@ export default function NFAGraphView({
             .append("path")
             .attr("class", "start-arrow")
             .attr("d", `M ${-NODE_RADIUS - 26} 0 L ${-NODE_RADIUS - 2} 0`)
-            .attr("stroke", COLOR_START_STROKE)
+            .attr("stroke", palette.startStroke)
             .attr("stroke-width", 2)
             .attr("marker-end", "url(#arrow)");
 
@@ -279,7 +293,7 @@ export default function NFAGraphView({
             .attr("font-size", 11)
             .attr("font-family", "JetBrains Mono, ui-monospace, monospace")
             .attr("font-weight", 500)
-            .attr("fill", "#e8eaf0")
+            .attr("fill", palette.textPrimary)
             .style("pointer-events", "none")
             .text((d) => d.id);
 
@@ -291,7 +305,7 @@ export default function NFAGraphView({
             .attr("dy", -(NODE_RADIUS + 12))
             .attr("font-size", 9)
             .attr("font-family", "JetBrains Mono, ui-monospace, monospace")
-            .attr("fill", "#aabcff")
+            .attr("fill", palette.startStroke)
             .style("pointer-events", "none")
             .text((d) => d.groupLabel ?? "");
 
@@ -306,15 +320,15 @@ export default function NFAGraphView({
         const tooltipRect = tooltip
             .append("rect")
             .attr("rx", 6)
-            .attr("fill", "#1d212b")
-            .attr("stroke", "#343b4a")
+            .attr("fill", palette.tooltipBackground)
+            .attr("stroke", palette.tooltipBorder)
             .attr("stroke-width", 1);
 
         const tooltipText = tooltip
             .append("text")
             .attr("font-size", 10.5)
             .attr("font-family", "JetBrains Mono, ui-monospace, monospace")
-            .attr("fill", "#e8eaf0")
+            .attr("fill", palette.textPrimary)
             .attr("dy", "0.32em");
 
         nodeSelection
@@ -413,14 +427,14 @@ export default function NFAGraphView({
             nodeSelection
                 .select<SVGCircleElement>("circle.node-circle")
                 .attr("fill", (d) =>
-                    active.has(d.id) ? COLOR_ACTIVE_FILL : COLOR_DEFAULT_FILL
+                    active.has(d.id) ? palette.activeFill : palette.defaultFill
                 )
                 .attr("stroke", (d) =>
                     active.has(d.id)
-                        ? COLOR_ACTIVE_STROKE
+                        ? palette.activeStroke
                         : d.isStart
-                          ? COLOR_START_STROKE
-                          : COLOR_DEFAULT_STROKE
+                          ? palette.startStroke
+                          : palette.defaultStroke
                 )
                 .attr("stroke-width", (d) =>
                     active.has(d.id) ? 3 : d.isStart ? 2.5 : 1.5
@@ -428,16 +442,16 @@ export default function NFAGraphView({
 
             nodeSelection
                 .select<SVGTextElement>("text.node-label")
-                .attr("fill", (d) => (active.has(d.id) ? "#1a1d24" : "#e8eaf0"));
+                .attr("fill", palette.textPrimary);
 
             linkSelection
                 .select<SVGPathElement>("path.link-path")
                 .attr("stroke", (d) =>
                     activeEdges.has(d.id)
-                        ? COLOR_EDGE_ACTIVE
+                        ? palette.edgeActive
                         : d.isEpsilon
-                          ? COLOR_EDGE_EPSILON
-                          : COLOR_EDGE_DEFAULT
+                          ? palette.edgeEpsilon
+                          : palette.edgeDefault
                 )
                 .attr("stroke-width", (d) => (activeEdges.has(d.id) ? 3 : 1.5))
                 .attr("marker-end", (d) =>
@@ -450,10 +464,10 @@ export default function NFAGraphView({
                 .select<SVGPathElement>("path.self-loop-path")
                 .attr("stroke", (d) =>
                     activeEdges.has(d.id)
-                        ? COLOR_EDGE_ACTIVE
+                        ? palette.edgeActive
                         : d.isEpsilon
-                          ? COLOR_EDGE_EPSILON
-                          : COLOR_EDGE_DEFAULT
+                          ? palette.edgeEpsilon
+                          : palette.edgeDefault
                 )
                 .attr("stroke-width", (d) => (activeEdges.has(d.id) ? 3 : 1.5));
         }
@@ -477,7 +491,7 @@ export default function NFAGraphView({
         // Deliberately re-running only when the graph's structural identity
         // changes, not on every highlight update — see the effect below for that.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [graph]);
+    }, [graph, theme]);
 
     // Cheap highlight-only update on every simulation step, without
     // rebuilding the force layout.

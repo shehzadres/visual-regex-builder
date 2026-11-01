@@ -40,9 +40,17 @@ export default function AutomatonGraphSwitcher({
                     { value: "minimized", label: "Minimized DFA" },
                     { value: "side-by-side", label: "Side by side" },
                 ]}
+                idPrefix="automaton"
+                ariaLabel="Automaton graph views"
                 className="bg-surface rounded-lg p-1 border border-border-subtle w-fit"
             />
 
+            <div
+                id="automaton-panel"
+                role="tabpanel"
+                aria-labelledby={`automaton-${mode}`}
+                tabIndex={0}
+            >
             {mode === "side-by-side" ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1.5">
@@ -96,6 +104,7 @@ export default function AutomatonGraphSwitcher({
                     )}
                 </div>
             )}
+            </div>
         </div>
     );
 }

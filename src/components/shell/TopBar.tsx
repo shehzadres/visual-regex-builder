@@ -1,8 +1,7 @@
-import { Moon, Sun, Settings, Search, Regex, CircleDot } from "lucide-react";
+import { Moon, Sun, Search, Regex, CheckCircle2, AlertCircle } from "lucide-react";
 import { useUIStore } from "../../store/uiStore";
 import { useRegexMatcher } from "../../hooks/useRegexMatcher";
 import Tooltip from "../../design-system/Tooltip";
-import Badge from "../../design-system/Badge";
 
 export default function TopBar() {
     const theme = useUIStore((s) => s.theme);
@@ -11,20 +10,18 @@ export default function TopBar() {
     const { isValid, pattern } = useRegexMatcher();
 
     return (
-        <header className="h-12 shrink-0 flex items-center justify-between gap-4 px-3 bg-surface border-b border-border-subtle select-none">
-            <div className="flex items-center gap-2.5 min-w-0">
-                <div className="flex items-center justify-center w-7 h-7 rounded-md bg-accent-500/15 text-accent-400 shrink-0">
-                    <Regex className="w-4 h-4" />
+        <header className="h-14 shrink-0 flex items-center justify-between gap-5 px-5 bg-surface border-b border-border-subtle select-none">
+            <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center justify-center w-8 h-8 rounded-[9px] bg-accent-50 text-accent-600 shrink-0">
+                    <Regex className="w-[17px] h-[17px]" strokeWidth={2.1} />
                 </div>
-                <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-sm font-semibold text-text-primary whitespace-nowrap">
-                        Visual Regex Builder
+                <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="text-[14px] font-semibold tracking-[-0.025em] text-text-primary whitespace-nowrap">
+                        Regex Studio
                     </span>
-                    <span className="text-text-tertiary text-xs hidden sm:inline">
-                        /
-                    </span>
-                    <span className="text-xs text-text-secondary hidden sm:inline truncate max-w-[220px]">
-                        untitled-pattern
+                    <span className="text-border-strong">/</span>
+                    <span className="text-[12px] text-text-tertiary hidden sm:inline truncate max-w-[180px]">
+                        New pattern
                     </span>
                 </div>
             </div>
@@ -32,64 +29,34 @@ export default function TopBar() {
             <button
                 type="button"
                 onClick={() => setCommandPaletteOpen(true)}
-                className="hidden md:flex items-center gap-2 h-7 px-2.5 rounded-md bg-surface-raised border border-border-default text-text-tertiary text-xs hover:border-border-strong hover:text-text-secondary transition-colors w-72"
+                aria-label="Search patterns and actions"
+                className="hidden md:flex items-center gap-2.5 h-9 px-3 rounded-lg bg-canvas border border-border-subtle text-text-tertiary text-xs hover:border-border-default hover:text-text-secondary transition-colors w-[min(340px,32vw)]"
             >
                 <Search className="w-3.5 h-3.5" />
-                <span className="flex-1 text-left">
-                    Search patterns, actions…
-                </span>
-                <span className="kbd">⌘K</span>
+                <span className="flex-1 text-left">Search patterns and actions</span>
+                <span className="kbd">Ctrl K</span>
             </button>
 
-            <div className="flex items-center gap-2 shrink-0">
-                {pattern !== "" && (
-                    <Badge
-                        variant={isValid ? "success" : "danger"}
-                        dot
-                        className="hidden sm:inline-flex"
-                    >
-                        {isValid ? "Valid pattern" : "Invalid pattern"}
-                    </Badge>
-                )}
-                {pattern === "" && (
-                    <Badge
-                        variant="neutral"
-                        dot
-                        className="hidden sm:inline-flex"
-                    >
-                        <CircleDot className="w-3 h-3 -ml-0.5" />
-                        No pattern yet
-                    </Badge>
-                )}
-
-                <Tooltip
-                    label={
-                        theme === "dark"
-                            ? "Switch to light theme"
-                            : "Switch to dark theme"
-                    }
-                >
+            <div className="flex items-center gap-3 shrink-0">
+                <div className="hidden sm:flex items-center gap-2 text-[11px] text-text-secondary">
+                    {pattern === "" ? (
+                        <span className="w-1.5 h-1.5 rounded-full bg-text-disabled" />
+                    ) : isValid ? (
+                        <CheckCircle2 className="w-3.5 h-3.5 text-success-500" />
+                    ) : (
+                        <AlertCircle className="w-3.5 h-3.5 text-danger-500" />
+                    )}
+                    <span>{pattern === "" ? "Waiting for a pattern" : isValid ? "Expression is valid" : "Check expression"}</span>
+                </div>
+                <div className="h-5 w-px bg-border-subtle" />
+                <Tooltip label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
                     <button
                         type="button"
                         onClick={toggleTheme}
                         aria-label="Toggle theme"
-                        className="flex items-center justify-center w-7 h-7 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
+                        className="flex items-center justify-center w-8 h-8 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
                     >
-                        {theme === "dark" ? (
-                            <Moon className="w-4 h-4" />
-                        ) : (
-                            <Sun className="w-4 h-4" />
-                        )}
-                    </button>
-                </Tooltip>
-
-                <Tooltip label="Settings">
-                    <button
-                        type="button"
-                        aria-label="Settings"
-                        className="flex items-center justify-center w-7 h-7 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-hover transition-colors"
-                    >
-                        <Settings className="w-4 h-4" />
+                        {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                     </button>
                 </Tooltip>
             </div>

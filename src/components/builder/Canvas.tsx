@@ -15,13 +15,14 @@ import {
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Boxes, Trash2 } from "lucide-react";
+import { Boxes, Trash2, SlidersHorizontal, GripVertical } from "lucide-react";
 import { useRegexStore } from "../../store/regexStore";
 import RegexBlockItem from "./RegexBlock";
 import BlockEditor from "./BlockEditor";
 import EmptyState from "../../design-system/EmptyState";
 import Button from "../../design-system/Button";
 import Card from "../../design-system/Card";
+import ExpressionPreview from "./ExpressionPreview";
 
 export default function Canvas() {
     const blocks = useRegexStore((s) => s.blocks);
@@ -60,37 +61,53 @@ export default function Canvas() {
     const draggingBlock = blocks.find((b) => b.id === draggingId) ?? null;
 
     return (
-        <div className="flex flex-col gap-4 h-full">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <Boxes className="w-4 h-4 text-text-tertiary" />
-                    <h2 className="text-sm font-semibold text-text-primary">
-                        Canvas
-                    </h2>
-                    <span className="text-xs text-text-tertiary">
-                        Drag to reorder · click to edit · right-click for more
-                    </span>
+        <div className="flex flex-col gap-5 h-full">
+            <div className="flex items-end justify-between gap-4">
+                <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2.5">
+                        <h1 className="text-[20px] leading-tight font-semibold tracking-[-0.04em] text-text-primary">
+                            Pattern canvas
+                        </h1>
+                        <span className="text-[11px] text-text-tertiary border-l border-border-default pl-2.5">
+                            {blocks.length} {blocks.length === 1 ? "block" : "blocks"}
+                        </span>
+                    </div>
+                    <p className="text-[12px] text-text-secondary">
+                        Assemble an expression from building blocks, then refine each part.
+                    </p>
                 </div>
                 {blocks.length > 0 && (
                     <Button
                         variant="ghost"
-                        size="xs"
-                        icon={<Trash2 className="w-3 h-3" />}
+                        size="sm"
+                        icon={<Trash2 className="w-3.5 h-3.5" />}
                         onClick={clearBlocks}
                     >
-                        Clear all
+                        Clear canvas
                     </Button>
                 )}
             </div>
 
             <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0">
-                <Card className="flex-1 min-h-[220px] overflow-y-auto">
+                <Card className="flex-1 min-h-[360px] overflow-y-auto flex flex-col">
+                    <div className="flex items-center justify-between gap-3 border-b border-border-subtle pb-3 mb-4">
+                        <div className="flex items-center gap-2">
+                            <Boxes className="w-4 h-4 text-accent-600" />
+                            <span className="text-[13px] font-semibold text-text-primary">Sequence</span>
+                        </div>
+                        <span className="flex items-center gap-1.5 text-[11px] text-text-tertiary">
+                            <GripVertical className="w-3.5 h-3.5" />
+                            Drag to reorder
+                        </span>
+                    </div>
                     {blocks.length === 0 ? (
-                        <EmptyState
-                            icon={<Boxes className="w-5 h-5" />}
-                            title="No blocks yet"
-                            description="Add blocks from the sidebar toolbox to start building a pattern."
-                        />
+                        <div className="flex-1 flex items-center justify-center">
+                            <EmptyState
+                                icon={<Boxes className="w-5 h-5" />}
+                                title="Start with a building block"
+                                description="Choose Literal, Digit, Group or another block from the left. Your expression updates as you build."
+                            />
+                        </div>
                     ) : (
                         <DndContext
                             sensors={sensors}
@@ -102,14 +119,12 @@ export default function Canvas() {
                                 items={blocks.map((b) => b.id)}
                                 strategy={verticalListSortingStrategy}
                             >
-                                <div className="flex flex-col gap-1.5">
+                                <div className="flex flex-col gap-2">
                                     {blocks.map((block) => (
                                         <RegexBlockItem
                                             key={block.id}
                                             block={block}
-                                            isSelected={
-                                                block.id === selectedBlockId
-                                            }
+                                            isSelected={block.id === selectedBlockId}
                                             onSelect={selectBlock}
                                         />
                                     ))}
@@ -117,7 +132,7 @@ export default function Canvas() {
                             </SortableContext>
                             <DragOverlay>
                                 {draggingBlock ? (
-                                    <div className="rounded-md border border-accent-500 bg-surface-overlay px-2.5 py-2 shadow-lg opacity-90">
+                                    <div className="rounded-lg border border-accent-500 bg-surface-overlay px-3 py-2.5 shadow-md opacity-95">
                                         <span className="text-xs font-semibold font-mono-tabular text-text-primary">
                                             {draggingBlock.type}
                                         </span>
@@ -128,10 +143,16 @@ export default function Canvas() {
                     )}
                 </Card>
 
-                <Card className="w-full lg:w-72 shrink-0 overflow-y-auto">
+                <Card className="w-full lg:w-[320px] shrink-0 overflow-y-auto">
+                    <div className="flex items-center gap-2 border-b border-border-subtle pb-3 mb-4">
+                        <SlidersHorizontal className="w-4 h-4 text-accent-600" />
+                        <span className="text-[13px] font-semibold text-text-primary">Block settings</span>
+                    </div>
                     <BlockEditor />
                 </Card>
             </div>
+
+            <ExpressionPreview />
         </div>
     );
 }

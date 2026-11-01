@@ -14,10 +14,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         <input
             ref={ref}
             className={[
-                "w-full h-8 px-2.5 rounded-md text-sm",
-                "bg-surface-raised border transition-colors duration-[var(--duration-fast)]",
+                "w-full h-9 px-3 rounded-lg text-[13px]",
+                "bg-surface border transition-colors duration-[var(--duration-fast)]",
                 "placeholder:text-text-tertiary text-text-primary",
-                "focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500",
+                "focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500",
                 invalid
                     ? "border-danger-500/60"
                     : "border-border-default hover:border-border-strong",
@@ -43,10 +43,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             <textarea
                 ref={ref}
                 className={[
-                    "w-full px-2.5 py-2 rounded-md text-sm resize-none",
-                    "bg-surface-raised border transition-colors duration-[var(--duration-fast)]",
+                    "w-full px-3 py-2.5 rounded-lg text-[13px] resize-none",
+                    "bg-surface border transition-colors duration-[var(--duration-fast)]",
                     "placeholder:text-text-tertiary text-text-primary",
-                    "focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500",
+                    "focus:outline-none focus:ring-2 focus:ring-accent-500/20 focus:border-accent-500",
                     invalid
                         ? "border-danger-500/60"
                         : "border-border-default hover:border-border-strong",

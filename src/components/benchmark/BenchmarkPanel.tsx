@@ -147,7 +147,7 @@ export default function BenchmarkPanel() {
                             />
                         ))}
 
-                    <div className="flex items-center gap-2 text-xs font-semibold text-text-tertiary uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-[12px] font-semibold text-text-secondary">
                         <Gauge className="w-3.5 h-3.5" />
                         Execution time vs. dataset size
                     </div>

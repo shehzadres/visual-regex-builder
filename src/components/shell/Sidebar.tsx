@@ -94,21 +94,22 @@ function SidebarSection({
                 <button
                     type="button"
                     onClick={() => setOpen((v) => !v)}
-                    className="flex-1 flex items-center gap-2 px-3 py-2.5 text-left group"
+                    aria-expanded={open}
+                    className="sidebar-section-trigger flex-1 flex items-center gap-2.5 px-4 py-3 text-left group"
                 >
                     <ChevronRight
-                        className={`w-3.5 h-3.5 text-text-tertiary transition-transform duration-[var(--duration-fast)] ${
+                        className={`sidebar-section-chevron w-3.5 h-3.5 text-text-tertiary transition-transform duration-[var(--duration-fast)] ${
                             open ? "rotate-90" : ""
                         }`}
                     />
                     <span className="text-text-tertiary">{icon}</span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-text-secondary group-hover:text-text-primary transition-colors">
+                    <span className="sidebar-section-title text-[12px] font-semibold text-text-secondary group-hover:text-text-primary transition-colors">
                         {title}
                     </span>
                 </button>
-                {action && <div className="pr-2">{action}</div>}
+                {action && <div className="sidebar-action pr-2">{action}</div>}
             </div>
-            {open && <div className="px-2 pb-3">{children}</div>}
+            {open && <div className="sidebar-section-content px-2 pb-3">{children}</div>}
         </div>
     );
 }
@@ -204,12 +205,12 @@ export default function Sidebar() {
     return (
         <div
             style={{ width: sidebarWidth }}
-            className="shrink-0 flex bg-surface border-r border-border-subtle"
+            className="sidebar-shell shrink-0 flex bg-surface border-r border-border-subtle"
         >
             <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-                <div className="flex items-center justify-between px-3 h-9 shrink-0 border-b border-border-subtle">
-                    <span className="text-xs font-semibold text-text-secondary">
-                        Explorer
+                <div className="sidebar-header flex items-center justify-between px-4 h-11 shrink-0 border-b border-border-subtle">
+                    <span className="sidebar-title text-[12px] font-semibold text-text-secondary">
+                        Build
                     </span>
                     <Tooltip label="Collapse sidebar" side="right">
                         <button
@@ -224,7 +225,7 @@ export default function Sidebar() {
                 </div>
 
                 <SidebarSection
-                    title="Block toolbox"
+                    title="Blocks"
                     icon={<Type className="w-3.5 h-3.5" />}
                 >
                     <div className="flex flex-col gap-1">
@@ -234,19 +235,21 @@ export default function Sidebar() {
                                 <button
                                     key={definition.type}
                                     type="button"
+                                    title={`Add ${definition.label} block`}
+                                    aria-label={`Add ${definition.label} block`}
                                     onClick={() =>
                                         handleAddToolboxBlock(definition)
                                     }
-                                    className="flex items-start gap-2.5 text-left rounded-md px-2 py-1.5 hover:bg-surface-hover transition-colors duration-[var(--duration-fast)] group"
+                                    className="sidebar-tool-button flex items-center gap-3 text-left rounded-lg px-2 py-2 hover:bg-surface-hover transition-colors duration-[var(--duration-fast)] group"
                                 >
-                                    <span className="flex items-center justify-center w-6 h-6 rounded-md bg-surface-raised text-text-tertiary group-hover:text-accent-400 group-hover:bg-accent-500/10 transition-colors shrink-0 mt-0.5">
+                                    <span className="sidebar-tool-icon flex items-center justify-center w-8 h-8 rounded-lg bg-canvas border border-border-subtle text-text-secondary group-hover:text-accent-600 group-hover:border-accent-500/40 transition-colors shrink-0">
                                         <Icon className="w-3.5 h-3.5" />
                                     </span>
-                                    <span className="flex flex-col min-w-0">
+                                    <span className="sidebar-copy flex flex-col min-w-0">
                                         <span className="text-[13px] font-medium text-text-primary truncate">
                                             {definition.label}
                                         </span>
-                                        <span className="text-[11px] text-text-tertiary font-mono-tabular truncate">
+                                        <span className="text-[11px] text-text-tertiary truncate">
                                             {definition.description}
                                         </span>
                                     </span>
