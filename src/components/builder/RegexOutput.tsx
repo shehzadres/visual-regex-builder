@@ -1,95 +1,23 @@
 import { Copy, CheckCircle2, XCircle } from "lucide-react";
 import { useRegexMatcher } from "../../hooks/useRegexMatcher";
 import { useRegexStore } from "../../store/regexStore";
-import { Textarea } from "../../design-system/Input";
 import Button from "../../design-system/Button";
-import Badge from "../../design-system/Badge";
 import { toast } from "../../design-system/toastStore";
 
-const TOGGLEABLE_FLAGS: Array<{ flag: string; label: string }> = [
-    { flag: "i", label: "Ignore case (i)" },
-    { flag: "m", label: "Multiline (m)" },
-    { flag: "s", label: "Dot all (s)" },
-];
+const FLAGS = [{ flag: "i", label: "Ignore case" }, { flag: "m", label: "Multiline" }, { flag: "s", label: "Dot all" }];
 
 export default function RegexOutput() {
-    const { pattern, isValid, error } = useRegexMatcher();
-    const flags = useRegexStore((s) => s.flags);
-    const toggleFlag = useRegexStore((s) => s.toggleFlag);
-
-    const handleCopy = () => {
-        navigator.clipboard?.writeText(`/${pattern}/${flags}`);
-        toast({
-            title: "Copied to clipboard",
-            description: `/${pattern}/${flags}`,
-            variant: "success",
-        });
-    };
-
-    return (
-        <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-                <h3 className="text-[12px] font-semibold text-text-secondary">
-                    Generated expression
-                </h3>
-                <Button
-                    variant="ghost"
-                    size="xs"
-                    icon={<Copy className="w-3 h-3" />}
-                    onClick={handleCopy}
-                    disabled={pattern === ""}
-                >
-                    Copy
-                </Button>
-            </div>
-
-            <Textarea
-                mono
-                value={pattern}
-                readOnly
-                rows={3}
-                invalid={!isValid}
-                className="bg-surface-raised"
-            />
-
-            <Badge
-                variant={isValid ? "success" : "danger"}
-                className="self-start"
-            >
-                {isValid ? (
-                    <CheckCircle2 className="w-3 h-3" />
-                ) : (
-                    <XCircle className="w-3 h-3" />
-                )}
-                {isValid ? "Pattern is valid" : `Invalid: ${error}`}
-            </Badge>
-
-            <div className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-semibold text-text-secondary">
-                    Flags
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                    {TOGGLEABLE_FLAGS.map(({ flag, label }) => (
-                        <label
-                            key={flag}
-                            className={[
-                                "flex items-center gap-2 text-[12px] rounded-md px-2.5 py-1.5 cursor-pointer border transition-colors duration-[var(--duration-fast)]",
-                                flags.includes(flag)
-                                    ? "bg-accent-50 border-accent-500/40 text-accent-700"
-                                    : "bg-surface-raised border-border-default text-text-secondary hover:border-border-strong",
-                            ].join(" ")}
-                        >
-                            <input
-                                type="checkbox"
-                                checked={flags.includes(flag)}
-                                onChange={() => toggleFlag(flag)}
-                                className="rounded border-border-strong bg-surface-raised accent-accent-500"
-                            />
-                            {label}
-                        </label>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+  const { pattern, isValid, error } = useRegexMatcher();
+  const flags = useRegexStore(s => s.flags);
+  const toggleFlag = useRegexStore(s => s.toggleFlag);
+  const handleCopy = () => {
+    navigator.clipboard?.writeText(`/${pattern}/${flags}`);
+    toast({ title: "Copied to clipboard", description: `/${pattern}/${flags}`, variant: "success" });
+  };
+  return <section className="regex-output-panel">
+    <div className="regex-output-head"><div><span className="tool-eyebrow">COMPILED PATTERN</span><h2>Expression</h2></div><Button variant="ghost" size="xs" icon={<Copy className="w-3 h-3"/>} onClick={handleCopy} disabled={!pattern}>Copy</Button></div>
+    <div className="regex-code-display"><span className="regex-delimiter">/</span><code>{pattern || "Your expression will appear here"}</code><span className="regex-delimiter">/</span><span className="regex-flags">{flags}</span></div>
+    <div className={`regex-validity ${isValid ? "is-valid" : "is-invalid"}`}>{isValid ? <CheckCircle2 size={13}/> : <XCircle size={13}/>}<span>{isValid ? "Expression compiles" : error ?? "Invalid expression"}</span></div>
+    <div className="regex-flags-row"><span>FLAGS</span>{FLAGS.map(({flag,label}) => <label key={flag} className={flags.includes(flag) ? "is-active" : ""}><input type="checkbox" checked={flags.includes(flag)} onChange={() => toggleFlag(flag)}/><code>{flag}</code>{label}</label>)}</div>
+  </section>;
 }
