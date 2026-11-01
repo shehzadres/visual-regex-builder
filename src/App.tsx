@@ -10,26 +10,19 @@ import { useConsoleLogging } from "./hooks/useConsoleLogging";
 import { useUIStore } from "./store/uiStore";
 
 function App() {
-    useConsoleLogging();
-    const activeWorkspaceTab = useUIStore((s) => s.activeWorkspaceTab);
-
-    return (
-        <div className="flex flex-col h-screen w-screen overflow-hidden bg-canvas text-text-primary">
-            <ThemeSync />
-            <TopBar />
-
-            <div className="flex-1 flex min-h-0">
-                <Sidebar />
-                <Workspace />
-                {activeWorkspaceTab !== "builder" && <Inspector />}
-            </div>
-
-            <BottomDock />
-
-            <CommandPalette />
-            <ToastViewport />
-        </div>
-    );
+ useConsoleLogging();
+ const activeWorkspaceTab=useUIStore(s=>s.activeWorkspaceTab);
+ return <div className="app-shell">
+  <ThemeSync/>
+  <TopBar/>
+  <div className="app-body">
+   <Sidebar/>
+   <Workspace/>
+   {activeWorkspaceTab!=="builder"&&<Inspector/>}
+  </div>
+  <BottomDock/>
+  <CommandPalette/>
+  <ToastViewport/>
+ </div>;
 }
-
 export default App;
